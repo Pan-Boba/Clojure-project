@@ -1,0 +1,13 @@
+﻿  List.cpp
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.h(22,19): error C3203: 'Element': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.h(56): message : see reference to class template instantiation 'pdsLib::List<T>' being compiled
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.h(23,19): error C3203: 'Element': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(153,20): error C3861: 'index': identifier not found
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(156,6): error C2065: 'index': undeclared identifier
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(156,6): error C3861: 'index': identifier not found
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(162,6): error C3861: 'index': identifier not found
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(171,23): error C2065: 'index': undeclared identifier
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(171,23): error C3861: 'index': identifier not found
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(200,21): error C3861: 'head': identifier not found
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(201,22): error C2065: 'count': undeclared identifier
+C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(201,22): error C3861: 'count': identifier not found
