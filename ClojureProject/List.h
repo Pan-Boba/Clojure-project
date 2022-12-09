@@ -9,9 +9,11 @@ namespace pdsLib
 	template<class T>
 	struct Element
 	{
+		Element() {};
+		Element(T, std::shared_ptr<Element<T>>, std::shared_ptr<Element<T>>);
 		T data;
-		std::shared_ptr<const Element> prev;
-		std::shared_ptr<const Element> next;
+		std::shared_ptr<Element<T>> prev;
+		std::shared_ptr<Element<T>> next;
 	};
 
 	/*doubly persistent linked list*/
@@ -19,47 +21,60 @@ namespace pdsLib
 	class List
 	{
 	private:
-		std::shared_ptr<const Element> head;
-		std::shared_ptr<const Element> tail;
+		std::shared_ptr<Element<T>> head;
+		std::shared_ptr<Element<T>> tail;
 		int count;
 
+		/*correct index flag*/
+		bool CorrectIndex(int) const;
+
+		/*return head of the list*/
+		T Front() const;
+
+		/*return rest of the list*/
+		List<T> PoppedFront() const;
+
 	public:
+		/*constructor*/
 		List();
 
-		/*copy-constructor*/
-		List(const List&);
+		/*list-constructor used to pop front*/
+		List(std::shared_ptr<Element<T>>, List const&);
 
+		/*list-constructor used to add head element*/
+		List(T, List const&);
+
+		/*list-constructor used to add tail element*/
+		List(List const&, T);
+
+		/*is empty flag*/
 		bool IsEmpty() const;
 
-		bool CorrectIndex(int);
-
-		/*insert element in head of List*/
-		void AddHead(T);
-
-		/*insert element in tail of List*/
-		void AddTail(T);
-
 		/*get num of elements in List*/
-		int Count();
+		int Count() const;
+
+		/*return new List with added head element*/
+		List<T> AddHead(T) const;
+
+		/*return new List with added tail element*/
+		List<T> AddTail(T) const;
+
+		/*take and return new List from 0 to int elements*/
+		List<T> Take(int) const;
 
 		/*get element of List by index*/
-		T Get(int);
-		
-		/*get element of List by index*/
-		void Set(T, int);
+		T Get(int) const;
 
-		/*delete element in List by index*/
-		void Remove(int index = 0);
+		/*set element of List by index*/
+		List<T> Set(int, T) const;
 
 		/*insert element in List by index*/
-		void Insert(T, int index = 0);
+		List<T> Insert(T, int index = 0) const;
+
+		/*delete element in List by index*/
+		List Remove(int) const;
+
+		/*print all List*/
+		void PrintAll() const;
 	};
-
-	/*concatenate 2 Lists*/
-	template<class T>
-	List<T> Concat(List<T> const& a, List<T> const& b);
-
-	/*print all List*/
-	template<class T>
-	void PrintAll();
 }
