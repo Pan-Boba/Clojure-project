@@ -3,54 +3,48 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 template <class T>
 class HashTable
 {
-	static const int default_size = 8;
-	constexpr static const double rehash_size = 0.75;
+	static const int defaultSize = 2;
+	constexpr static const double rehashSize = 0.75;
 
 	struct Node
 	{
 		T value;
 		bool state;
-		Node(const T& value_) : value(value_), state(true) {}
+		Node(const T& value) : value(value), state(true) {}
 	};
 
-	Node** arr;
-	int size;
-	int bufferSize;
-	int sizeAllNonNullptr;
+	std::vector<std::shared_ptr<Node>> vecSpNodes;
+
+	static int HashFunctionHorner(const std::string& s, int tableSize, const int key);
+	static std::string toString(const T& value);
 
 	void Resize();
 	void Rehash();
 
-	static int HashFunctionHorner(const std::string& s, int table_size, const int key);
-	static std::string toString(const T value);
+	int sizeAllNonNullptr;
+	int bufferSize;
+	int size;
 
 public:
 	HashTable();
-	~HashTable();
+	HashTable(const std::vector<std::shared_ptr<Node>>& vecSpNodes);
+	HashTable(const HashTable& hashTable);
+	~HashTable() {}
 
-	struct HashFunction1
-	{
-		int operator()(const T& value, int table_size) const
-		{
-			const std::string s = toString(value);
-			return HashFunctionHorner(s, table_size, table_size - 1);
-		}
-	};
+	struct HashFunction1;
+	struct HashFunction2;
 
-	struct HashFunction2
-	{
-		int operator()(const T& value, int table_size) const
-		{
-			const std::string s = toString(value);
-			return HashFunctionHorner(s, table_size, table_size + 1);
-		}
-	};
-
-	bool Add(const T& value, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
-	bool Remove(const T& value, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+	HashTable Add(const T& value, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+	HashTable Remove(const T& value, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+	
 	bool Find(const T& value, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+	bool IsEmpty();
+	int Count();
+	void Print();
+	
 };

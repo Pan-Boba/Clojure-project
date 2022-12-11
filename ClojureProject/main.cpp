@@ -4,34 +4,31 @@
 int main()
 {
 	HashTable<int> htI;
+	htI.Print();
 
-	std::cout << "Add " << htI.Add(10) << std::endl;
-	std::cout << "Add " << htI.Add(11) << std::endl;
-	std::cout << "Add " << htI.Add(1) << std::endl;
+	HashTable<int> htI2 = htI.Add(10).Add(1).Add(2);
+	htI2.Print();
 
-	std::cout << "Find " << htI.Find(1) << std::endl;
-	std::cout << "Remove " << htI.Remove(1) << std::endl;
-	std::cout << "Find " << htI.Find(1) << std::endl;
+	HashTable<int> htI3 = htI2.Remove(10);
+	htI3.Print();
 
 	HashTable<double> htD;
+	htD.Print();
 
-	std::cout << "Add " << htD.Add(0.5) << std::endl;
-	std::cout << "Add " << htD.Add(0.6) << std::endl;
-	std::cout << "Add " << htD.Add(0.7) << std::endl;
+	HashTable<double> htD2 = htD.Add(0.1).Add(0.5).Add(2.1);
+	htD2.Print();
 
-	std::cout << "Find " << htD.Find(0.5) << std::endl;
-	std::cout << "Remove " << htD.Remove(0.5) << std::endl;
-	std::cout << "Find " << htD.Find(0.5) << std::endl;
+	HashTable<double> htD3 = htD2.Remove(0.5);
+	htD3.Print();
 
-	/*HashTable<std::string> htS;
+	HashTable<std::string> htS;
+	htS.Print();
 
-	std::cout << "Add " << htS.Add("a") << std::endl;
-	std::cout << "Add " << htS.Add("b") << std::endl;
-	std::cout << "Add " << htS.Add("c") << std::endl;
+	HashTable<std::string> htS2 = htS.Add("a").Add("b").Add("c");
+	htS2.Print();
 
-	std::cout << "Find " << htS.Find("a") << std::endl;
-	std::cout << "Remove " << htS.Remove("a") << std::endl;
-	std::cout << "Find " << htS.Find("a") << std::endl;*/
+	HashTable<std::string> htS3 = htS2.Remove("c");
+	htS3.Print();
 
 	return 0;
 }
