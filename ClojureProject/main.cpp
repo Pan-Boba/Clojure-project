@@ -6,31 +6,32 @@ using namespace pdsLib;
 int main()
 {
 	HashTable<int> htI;
-	htI.Print();
+	htI.PrintAll();
 
 	HashTable<int> htI2 = htI.Add(10).Add(1).Add(2);
-	htI2.Print();
+	htI.PrintAll();
+	htI2.PrintAll();
 
 	HashTable<int> htI3 = htI2.Remove(10);
-	htI3.Print();
+	htI3.PrintAll();
 
 	HashTable<double> htD;
-	htD.Print();
+	htD.PrintAll();
 
 	HashTable<double> htD2 = htD.Add(0.1).Add(0.5).Add(2.1);
-	htD2.Print();
+	htD2.PrintAll();
 
 	HashTable<double> htD3 = htD2.Remove(0.5);
-	htD3.Print();
+	htD3.PrintAll();
 
 	HashTable<std::string> htS;
-	htS.Print();
+	htS.PrintAll();
 
 	HashTable<std::string> htS2 = htS.Add("a").Add("b").Add("c");
-	htS2.Print();
+	htS2.PrintAll();
 
 	HashTable<std::string> htS3 = htS2.Remove("c");
-	htS3.Print();
+	htS3.PrintAll();
 
 	return 0;
 }

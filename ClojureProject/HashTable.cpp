@@ -6,9 +6,9 @@ using namespace pdsLib;
 template <class T>
 HashTable<T>::HashTable<T>()
 {
-	bufferSize = defaultSize;
+	tableSize = defaultSize;
 	vecSpElement.resize(defaultSize);
-	sizeAllNonNullptr = 0;
+	//sizeAllNonNullptr = 0;
 	size = 0;
 }
 
@@ -26,8 +26,8 @@ HashTable<T>::HashTable<T>(const std::vector<std::shared_ptr<Element>>& vecSpEle
 template <class T>
 HashTable<T>::HashTable<T>(const HashTable& hashTable)
 {
-	bufferSize = hashTable.bufferSize;
-	sizeAllNonNullptr = hashTable.sizeAllNonNullptr;
+	tableSize = hashTable.tableSize;
+	//sizeAllNonNullptr = hashTable.sizeAllNonNullptr;
 	size = hashTable.size;
 	
 	for (const auto& element : hashTable.vecSpElement)
@@ -84,13 +84,13 @@ std::string HashTable<T>::toString(const T& data)
 template <class T>
 void HashTable<T>::Resize()
 {
-	sizeAllNonNullptr = 0;
-	int prevBufferSize = bufferSize;
-	bufferSize *= 2;
+	//sizeAllNonNullptr = 0;
+	int prevBufferSize = tableSize;
+	tableSize *= 2;
 	size = 0;
 
 	std::vector<std::shared_ptr<Element>> vecSpElementTemp;
-	vecSpElementTemp.resize(bufferSize);
+	vecSpElementTemp.resize(tableSize);
 	std::swap(vecSpElement, vecSpElementTemp);
 
 	for (int i = 0; i < prevBufferSize; ++i)
@@ -106,16 +106,16 @@ void HashTable<T>::Resize()
 }
 
 /*remove deleted elements from HashTable*/
-template <class T>
+/*template <class T>
 void HashTable<T>::Rehash()
 {
 	sizeAllNonNullptr = 0;
 	size = 0;
 	std::vector<std::shared_ptr<Element>> vecSpElementTemp;
-	vecSpElementTemp.resize(bufferSize);
+	vecSpElementTemp.resize(tableSize);
 	std::swap(vecSpElement, vecSpElementTemp);
 
-	for (int i = 0; i < bufferSize; ++i)
+	for (int i = 0; i < tableSize; ++i)
 	{
 		if (vecSpElementTemp.at(i) && vecSpElementTemp.at(i)->state)
 		{
@@ -125,39 +125,39 @@ void HashTable<T>::Rehash()
 
 	vecSpElementTemp.clear();
 	vecSpElementTemp.reserve(0);
-}
+}*/
 
 /*return new HashTable with added element*/
 template <class T>
 HashTable<T> HashTable<T>::Add(const T& data, const HashFunction1& hash1, const HashFunction2& hash2)
 {
-	if (size + 1 > int(rehashSize * bufferSize))
+	if (size + 1 > int(rehashSize * tableSize))
 	{
 		Resize();
 	}
-	else if (sizeAllNonNullptr > 2 * size)
+	/*else if (sizeAllNonNullptr > 2 * size)
 	{
 		Rehash();
-	}
+	}*/
 
-	int h1 = hash1(data, bufferSize);
-	int h2 = hash2(data, bufferSize);
+	int h1 = hash1(data, tableSize);
+	int h2 = hash2(data, tableSize);
 
 	int i = 0;
 	int firstDeleted = -1;
-	while (vecSpElement.at(h1) && i < bufferSize)
+	while (vecSpElement.at(h1) && i < tableSize)
 	{
 		if (vecSpElement.at(h1)->data == data && vecSpElement.at(h1)->state)
 			return HashTable();;
 		if (!vecSpElement.at(h1)->state && firstDeleted == -1)
 			firstDeleted = h1;
-		h1 = (h1 + h2) % bufferSize;
+		h1 = (h1 + h2) % tableSize;
 		++i;
 	}
 	if (firstDeleted == -1)
 	{
-		vecSpElement.at(h1) = std::make_unique<Element>(data);
-		++sizeAllNonNullptr;
+		vecSpElement.at(h1) = std::make_shared<Element>(data);
+		//++sizeAllNonNullptr;
 	}
 	else
 	{
@@ -174,11 +174,11 @@ HashTable<T> HashTable<T>::Add(const T& data, const HashFunction1& hash1, const 
 template <class T>
 HashTable<T> HashTable<T>::Remove(const T& data, const HashFunction1& hash1, const HashFunction2& hash2)
 {
-	int h1 = hash1(data, bufferSize);
-	int h2 = hash2(data, bufferSize);
+	int h1 = hash1(data, tableSize);
+	int h2 = hash2(data, tableSize);
 
 	int i = 0;
-	while (vecSpElement.at(h1) && i < bufferSize)
+	while (vecSpElement.at(h1) && i < tableSize)
 	{
 		if (vecSpElement.at(h1)->data == data && vecSpElement.at(h1)->state)
 		{
@@ -187,7 +187,7 @@ HashTable<T> HashTable<T>::Remove(const T& data, const HashFunction1& hash1, con
 
 			return HashTable(*this);
 		}
-		h1 = (h1 + h2) % bufferSize;
+		h1 = (h1 + h2) % tableSize;
 		++i;
 	}
 
@@ -198,15 +198,15 @@ HashTable<T> HashTable<T>::Remove(const T& data, const HashFunction1& hash1, con
 template <class T>
 bool HashTable<T>::Find(const T& data, const HashFunction1& hash1, const HashFunction2& hash2)
 {
-	int h1 = hash1(data, bufferSize);
-	int h2 = hash2(data, bufferSize);
+	int h1 = hash1(data, tableSize);
+	int h2 = hash2(data, tableSize);
 
 	int i = 0;
-	while (vecSpElement.at(h1) && i < bufferSize)
+	while (vecSpElement.at(h1) && i < tableSize)
 	{
 		if (vecSpElement.at(h1)->data == data && vecSpElement.at(h1)->state)
 			return true;
-		h1 = (h1 + h2) % bufferSize;
+		h1 = (h1 + h2) % tableSize;
 		++i;
 	}
 	return false;
@@ -228,7 +228,7 @@ int HashTable<T>::Count()
 
 /*print all elements from HashTable*/
 template <class T>
-void HashTable<T>::Print()
+void HashTable<T>::PrintAll()
 {
 	std::cout << "Size: " << Count() << std::endl;
 	if (size)

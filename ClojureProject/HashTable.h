@@ -29,16 +29,16 @@ namespace pdsLib
 		void Resize();
 
 		/*remove deleted elements from HashTable*/
-		void Rehash();
+		//void Rehash();
 
 		/*vector of elements*/
 		std::vector<std::shared_ptr<Element>> vecSpElement;
 
 		/*how many elements we have in the vector now (taking into account deleted)*/
-		int sizeAllNonNullptr;
+		//int sizeAllNonNullptr;
 
 		/*the size of the vector itself, how much memory is allocated for storing our table*/
-		int bufferSize;
+		int tableSize;
 
 		/*the number of elements we currently have in the vector (excluding deleted)*/
 		int size;
@@ -47,13 +47,13 @@ namespace pdsLib
 		static const int defaultSize = 2;
 
 		/*coefficient at which the table will grow*/
-		constexpr static const double rehashSize = 0.75;
+		const double rehashSize = 0.75;
 
 	public:
 		/*constructor*/
 		HashTable();
 
-		/*constructor used to copy elements*/
+		/*constructor used to copy elements*/;
 		HashTable(const std::vector<std::shared_ptr<Element>>& vecSpElement);
 
 		/*copy-constructor*/
@@ -80,6 +80,6 @@ namespace pdsLib
 		int Count();
 
 		/*print all elements from HashTable*/
-		void Print();
+		void PrintAll();
 	};
 }
