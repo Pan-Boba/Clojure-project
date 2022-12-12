@@ -1,3 +1,5 @@
 *.tlog
 .vs/*
 ClojureProject/Debug
+ClojureProject/x64
+
