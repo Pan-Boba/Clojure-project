@@ -1,6 +1,8 @@
 #include "HashTable.h"
 #include "HashTable.cpp"
 
+using namespace pdsLib;
+
 int main()
 {
 	HashTable<int> htI;
