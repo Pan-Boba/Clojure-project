@@ -15,71 +15,53 @@ namespace pdsLib
 		struct Element
 		{
 			T data;
-			bool state; // if the state flag value is false, then the array element has been deleted (deleted)
-			Element(const T& data) : data(data), state(true) {}
+			int key;
+			Element(const T& _data, const int _key=0) : data(_data), key(_key) {}
 		};
 
-		/*return natural number for hash*/
-		static int HashFunctionHorner(const std::string& s, int tableSize, const int key);
-
 		/*return string from T*/
-		static std::string toString(const T& data);
+		static std::string toString(const T&);
 
-		/*resize HashTable*/
-		void Resize();
-
-		/*remove deleted elements from HashTable*/
-		//void Rehash();
+		/*return natural number for hash*/
+		static int HashFunctionHorner(const std::string&, const int, const int key);
 
 		/*vector of elements*/
-		std::vector<std::shared_ptr<Element>> vecSpElement;
-
-		/*how many elements we have in the vector now (taking into account deleted)*/
-		//int sizeAllNonNullptr;
-
-		/*the size of the vector itself, how much memory is allocated for storing our table*/
-		int tableSize;
-
-		/*the number of elements we currently have in the vector (excluding deleted)*/
-		int size;
-
-		/*initial size of our table*/
-		static const int defaultSize = 2;
-
-		/*coefficient at which the table will grow*/
-		const double rehashSize = 0.75;
+		std::vector<std::shared_ptr<Element>> vecElement;
 
 	public:
-		/*constructor*/
-		HashTable();
-
-		/*constructor used to copy elements*/;
-		HashTable(const std::vector<std::shared_ptr<Element>>& vecSpElement);
-
-		/*copy-constructor*/
-		HashTable(const HashTable& hashTable);
-
-		/*double hash method: 
+		/*double hash method:
 		two hash functions that return coprime natural numbers*/
 		struct HashFunction1;
 		struct HashFunction2;
 
-		/*return new HashTable with added element*/
-		HashTable Add(const T& data, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
-		
-		/*return new HashTable with removed element*/
-		HashTable Remove(const T& data, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+		/*constructor*/
+		HashTable();
 
-		/*find element in HashTable*/
-		bool Find(const T& data, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
-		
+		/*constructor used to add elements*/;
+		HashTable(std::shared_ptr<Element>, HashTable const&);
+
+		/*constructor used to remove elements*/
+		HashTable(int, HashTable const&);
+
 		/*is empty flag*/
-		bool IsEmpty();
+		bool IsEmpty() const;
 
 		/*get num of elements in HashTable*/
-		int Count();
+		int Count() const;
 
+		/*change keys*/
+		void Hash(std::shared_ptr<Element> element, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+
+		/*return new HashTable with added element*/
+		HashTable Add(const T&) const;
+		
+		/*return new HashTable with removed element*/
+		HashTable Remove(const T&) const;
+
+		/*find element in HashTable*/
+		bool Find(const T&) const;
+		
 		/*print all elements from HashTable*/
-		void PrintAll();
+		void PrintAll() const;
 	};
 }

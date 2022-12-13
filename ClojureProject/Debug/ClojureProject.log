@@ -1,13 +1,28 @@
-﻿  List.cpp
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.h(22,19): error C3203: 'Element': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.h(56): message : see reference to class template instantiation 'pdsLib::List<T>' being compiled
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.h(23,19): error C3203: 'Element': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(153,20): error C3861: 'index': identifier not found
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(156,6): error C2065: 'index': undeclared identifier
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(156,6): error C3861: 'index': identifier not found
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(162,6): error C3861: 'index': identifier not found
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(171,23): error C2065: 'index': undeclared identifier
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(171,23): error C3861: 'index': identifier not found
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(200,21): error C3861: 'head': identifier not found
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(201,22): error C2065: 'count': undeclared identifier
-C:\Users\User\source\repos\ClojureProject\ClojureProject\List.cpp(201,22): error C3861: 'count': identifier not found
+﻿  HashTable.cpp
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(51,1): warning C4812: obsolete declaration style: please use 'pdsLib::HashTable<T>::HashTable' instead
+  List.cpp
+  main.cpp
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(51,1): warning C4812: obsolete declaration style: please use 'pdsLib::HashTable<T>::HashTable' instead
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(51,1): warning C4812: obsolete declaration style: please use 'pdsLib::HashTable<int>::HashTable' instead
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(51): message : while compiling class template member function 'pdsLib::HashTable<int>::HashTable(void)'
+C:\Users\User\source\repos\ClojureProject\ClojureProject\main.cpp(8): message : see reference to function template instantiation 'pdsLib::HashTable<int>::HashTable(void)' being compiled
+C:\Users\User\source\repos\ClojureProject\ClojureProject\main.cpp(8): message : see reference to class template instantiation 'pdsLib::HashTable<int>' being compiled
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(19,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(17): message : while compiling class template member function 'int pdsLib::HashTable<int>::HashFunctionHorner(const std::string &,const int,const int)'
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(35): message : see reference to function template instantiation 'int pdsLib::HashTable<int>::HashFunctionHorner(const std::string &,const int,const int)' being compiled
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(100): message : while compiling class template member function 'void pdsLib::HashTable<int>::Hash(std::shared_ptr<pdsLib::HashTable<int>::Element>,const pdsLib::HashTable<int>::HashFunction1 &,const pdsLib::HashTable<int>::HashFunction2 &)'
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(75): message : see reference to function template instantiation 'void pdsLib::HashTable<int>::Hash(std::shared_ptr<pdsLib::HashTable<int>::Element>,const pdsLib::HashTable<int>::HashFunction1 &,const pdsLib::HashTable<int>::HashFunction2 &)' being compiled
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(8): message : while compiling class template member function 'std::string pdsLib::HashTable<int>::toString(const T &)'
+          with
+          [
+              T=int
+          ]
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(197): message : see reference to function template instantiation 'std::string pdsLib::HashTable<int>::toString(const T &)' being compiled
+          with
+          [
+              T=int
+          ]
+C:\Users\User\source\repos\ClojureProject\ClojureProject\HashTable.cpp(51): message : while compiling class template member function 'pdsLib::HashTable<int>::HashTable(void)'
+C:\Users\User\source\repos\ClojureProject\ClojureProject\main.cpp(8): message : see reference to function template instantiation 'pdsLib::HashTable<int>::HashTable(void)' being compiled
+  Generating Code...
+  ClojureProject.vcxproj -> C:\Users\User\source\repos\ClojureProject\Debug\ClojureProject.exe
