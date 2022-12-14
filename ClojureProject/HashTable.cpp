@@ -146,7 +146,7 @@ HashTable<T> HashTable<T>::Remove(const T& data) const
 	try
 	{
 		if (!Find(data))
-			throw std::invalid_argument("This element is not present in the table");
+			throw std::invalid_argument("This element is not present in the table: ");
 
 		return HashTable(data, *this);
 	}
