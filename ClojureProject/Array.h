@@ -12,7 +12,7 @@ namespace pdsLib
 	class Array
 	{
 	private:
-		/*element of HashTable*/
+		/*element of Array*/
 		struct Element
 		{
 			T data;
@@ -39,19 +39,19 @@ namespace pdsLib
 		/*is empty flag*/
 		bool IsEmpty() const;
 
-		/*get num of elements in HashTable*/
+		/*get num of elements in Array*/
 		int Count() const;
 
-		/*return new HashTable with added element*/
+		/*return new Array with added element*/
 		Array Add(const T&) const;
 		
-		/*return new HashTable with removed element*/
+		/*return new Array with removed element*/
 		Array Remove(const T&) const;
 
-		/*find element in HashTable*/
+		/*find element in Array*/
 		bool Find(const T&) const;
 		
-		/*print all elements from HashTable*/
+		/*print all elements from Array*/
 		void PrintAll() const;
 	};
 }
