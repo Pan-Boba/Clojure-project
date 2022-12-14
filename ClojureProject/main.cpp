@@ -1,10 +1,15 @@
 #include "HashTable.h"
 #include "HashTable.cpp"
 
+#include "Array.h"
+#include "Array.cpp"
+
 using namespace pdsLib;
 
 int main()
 {
+	
+	/*
 	HashTable<int> htI;
 
 	HashTable<int> htI2 = htI.Add(0).Add(2).Add(4).Add(5).Add(6);
@@ -12,6 +17,16 @@ int main()
 	htI2.PrintAll();
 	htI2.Remove(6).PrintAll();
 	//std::cout << htI.Find(0) << std::endl;
+	*/
+
+
+	Array<int> array1;
+
+	Array<int> array2 = array1.Add(0).Add(2).Add(4).Add(5).Add(6);
+	array1.PrintAll();
+	array2.PrintAll();
+	array2.Remove(6).PrintAll();
+	std::cout << array1.Find(0) << " Array" << std::endl;
 
 	return 0;
 }
