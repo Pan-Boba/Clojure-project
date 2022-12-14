@@ -7,11 +7,11 @@ int main()
 {
 	HashTable<int> htI;
 
-	HashTable<int> htI2 = htI.Add(0).Add(2).Add(4).Add(5).Add(6);
-	//htI.PrintAll();
+	HashTable<int> htI2 = htI.Add(0).Add(0).Add(64).Add(6).Add(9);
+	htI.PrintAll();
 	htI2.PrintAll();
-	htI2.Remove(6).PrintAll();
-	//std::cout << htI.Find(0) << std::endl;
+	htI2.Remove(-1).PrintAll();
+	std::cout << htI2.Remove(0).Find(-1) << std::endl;
 
 	return 0;
 }

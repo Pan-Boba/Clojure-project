@@ -35,16 +35,16 @@ namespace pdsLib
 		List<T> PoppedFront() const;
 
 	public:
-		/*constructor*/
+		/*default constructor*/
 		List();
 
 		/*list-constructor used to pop front*/
 		List(std::shared_ptr<Element<T>>, List const&);
 
-		/*list-constructor used to add head element*/
+		/*list-constructor used to Insert head element*/
 		List(T, List const&);
 
-		/*list-constructor used to add tail element*/
+		/*list-constructor used to Insert tail element*/
 		List(List const&, T);
 
 		/*is empty flag*/

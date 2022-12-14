@@ -46,71 +46,79 @@ struct HashTable<T>::HashFunction2
 	}
 };
 
-/*constructor*/
+/*default constructor*/
 template <class T>
-HashTable<T>::HashTable<T>() {}
+HashTable<T>::HashTable()
+{
+	size = 0;
+	bufferSize = 4;
+	vecElement.resize(bufferSize);
+}
 
-/*constructor used to add elements*/;
+/*constructor used to add elements*/
 template <class T>
 HashTable<T>::HashTable(std::shared_ptr<Element> element, HashTable const& caller)
 {
+	size = caller.size;
+	bufferSize = caller.bufferSize;
 	vecElement = std::move(caller.vecElement);
-	vecElement.emplace_back(element);
 
-	// rehash
-	for (std::shared_ptr<Element> element : vecElement)
-		Hash(element);
+	// resize
+	if (size + 1 > (int) 0.75 * bufferSize)
+	{
+		bufferSize *= 2;
+		vecElement.resize(bufferSize);
+	}
 
+	Insert(element->data);
 }
 
 /*constructor used to remove elements*/
 template <class T>
-HashTable<T>::HashTable(int index, HashTable const& caller)
+HashTable<T>::HashTable(const T& data, HashTable const& caller, const HashFunction1& hash1, const HashFunction2& hash2)
 {
+	bufferSize = caller.bufferSize;
+	size = caller.size;
+
+	int h1 = hash1(data, bufferSize);
+	int h2 = hash2(data, bufferSize);
+
 	vecElement = std::move(caller.vecElement);
-	vecElement.erase(vecElement.begin() + index);
 
-	// rehash
-	for (std::shared_ptr<Element> element : vecElement)
-		Hash(element);
+	for (int i = 0; i < bufferSize; ++i)
+	{
+		if (vecElement.at(h1) && vecElement.at(h1)->data == data)
+		{
+			--size;
+			vecElement.at(h1) = nullptr;
 
+			break;
+		}
+		h1 = (h1 + h2) % bufferSize;
+	}
 }
 
-/*is empty flag*/
+/*Insert element at current vector hash table*/
 template <class T>
-bool HashTable<T>::IsEmpty() const
+void HashTable<T>::Insert(const T& data, const HashFunction1& hash1, const HashFunction2& hash2)
 {
-	// 0 = false, else - true
-	if (Count() == 0)
-		return true;
-	else
-		return false;
+	int h1 = hash1(data, bufferSize);
+	int h2 = hash2(data, bufferSize);
+
+	for (int i = 0; vecElement.at(h1) && i < bufferSize; ++i)
+	{
+		h1 = (h1 + h2) % bufferSize;
+	}
+
+	vecElement.at(h1) = std::make_shared<Element>(data, h1);
+	++size;
 }
 
 /*get num of elements in HashTable*/
 template <class T>
 int HashTable<T>::Count() const
 {
-	return vecElement.size();
-}
-
-/*change keys*/
-template <class T>
-void HashTable<T>::Hash(std::shared_ptr<Element> element, const HashFunction1& hash1, const HashFunction2& hash2)
-{
-	T data = element->data;
-	int tableSize = 2 * Count();
-
-	int h1 = hash1(data, tableSize);
-	int h2 = hash2(data, tableSize);
-
-	for (std::shared_ptr<Element> el : vecElement)
-	{
-		if (el->key == h1)
-			h1 = (h1 + h2) % tableSize;
-	}
-
-	element->key = h1;
+	return size;
 }
 
 /*return new HashTable with added element*/
@@ -119,14 +127,14 @@ HashTable<T> HashTable<T>::Add(const T& data) const
 {
 	try
 	{
-		if (!IsEmpty() && Find(data))
-			throw std::invalid_argument("This element is already present in the table");
+		if (Find(data))
+			throw std::invalid_argument("This element is already present in the table: ");
 
 		return HashTable(std::make_shared<Element>(data), *this);
 	}
 	catch (std::invalid_argument e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << toString(data) << std::endl;
 		return *this;
 	}
 }
@@ -137,52 +145,35 @@ HashTable<T> HashTable<T>::Remove(const T& data) const
 {
 	try
 	{
-		if (!IsEmpty() && !Find(data))
+		if (!Find(data))
 			throw std::invalid_argument("This element is not present in the table");
 
-		std::shared_ptr<Element> element = std::make_shared<Element>(data);
-		int index = 0;
-
-		for (int i = 0; i < Count(); ++i)
-		{
-			if (vecElement.at(i)->data == data)
-			{
-				index = i;
-			}
-		}
-
-		return HashTable(index, *this);
+		return HashTable(data, *this);
 	}
 	catch (std::invalid_argument e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << toString(data) << std::endl;
 		return *this;
 	}
 }
 
+/*find element in HashTable*/
 template <class T>
-bool HashTable<T>::Find(const T& data) const
+bool HashTable<T>::Find(const T& data, const HashFunction1& hash1, const HashFunction2& hash2) const
 {
-	try
-	{
-		if (IsEmpty())
-			throw std::invalid_argument("Empty hash table");
+	int h1 = hash1(data, bufferSize);
+	int h2 = hash2(data, bufferSize);
 
-		for (const std::shared_ptr<Element>& element : vecElement)
+	for (int i = 0; i < bufferSize; ++i)
+	{
+		if (vecElement.at(h1) && vecElement.at(h1)->data == data)
 		{
-			if (element->data == data)
-			{
-				return true;
-			}
-		}
+			return true;
 
-		return false;
+		}
+		h1 = (h1 + h2) % bufferSize;
 	}
-	catch (std::invalid_argument e)
-	{
-		std::cout << e.what() << std::endl;
-		return false;
-	}
+	return false;
 }
 
 /*print all elements from HashTable*/

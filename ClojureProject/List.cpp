@@ -3,6 +3,7 @@
 
 using namespace pdsLib;
 
+/*element of List*/
 template<class T>
 Element<T>::Element(T _data, std::shared_ptr<Element<T>> _prev, std::shared_ptr<Element<T>> _next)
 {
@@ -11,6 +12,7 @@ Element<T>::Element(T _data, std::shared_ptr<Element<T>> _prev, std::shared_ptr<
 	next = _next;
 }
 
+/*default constructor*/
 template<class T>
 List<T>::List()
 {
@@ -26,7 +28,7 @@ List<T>::List(std::shared_ptr<Element<T>> element, List const& rest)
 	count = rest.count - 1;
 }
 
-/*list-constructor used to add head element*/
+/*list-constructor used to Insert head element*/
 template<class T>
 List<T>::List(T element, List const& rest)
 {
@@ -45,7 +47,7 @@ List<T>::List(T element, List const& rest)
 	count = rest.count + 1;
 }
 
-/*list-constructor used to add tail element*/
+/*list-constructor used to Insert tail element*/
 template<class T>
 List<T>::List(List const& initial, T element)
 {
@@ -63,18 +65,21 @@ List<T>::List(List const& initial, T element)
 	count = initial.count + 1;
 }
 
+/*is empty flag*/
 template<class T>
 bool List<T>::IsEmpty() const
 {
 	return !head;
 }
 
+/*correct index flag*/
 template<class T>
 bool List<T>::CorrectIndex(int index) const
 {
 	return (index >= 0) && (index < count);
 }
 
+/*get num of elements in List*/
 template<class T>
 int List<T>::Count() const
 {
@@ -97,6 +102,7 @@ List<T> List<T>::PoppedFront() const
 	return List(head->next, *this);
 }
 
+/*return new List with added head element*/
 template<class T>
 List<T> List<T>::AddHead(T element) const
 {
@@ -110,6 +116,7 @@ List<T> List<T>::AddHead(T element) const
 	}
 }
 
+/*return new List with added tail element*/
 template<class T>
 List<T> List<T>::AddTail(T element) const
 {
@@ -123,6 +130,7 @@ List<T> List<T>::AddTail(T element) const
 	}
 }
 
+/*take and return new List from 0 to int elements*/
 template<class T>
 List<T> List<T>::Take(int n) const
 {
@@ -130,6 +138,7 @@ List<T> List<T>::Take(int n) const
 	return PoppedFront().Take(n - 1).AddHead(Front());
 }
 
+/*get element of List by index*/
 template<class T>
 T List<T>::Get(int index) const
 {
@@ -152,6 +161,7 @@ T List<T>::Get(int index) const
 	}
 }
 
+/*set element of List by index*/
 template<class T>
 List<T> List<T>::Set(int index, T _data) const
 {
@@ -175,6 +185,7 @@ List<T> List<T>::Set(int index, T _data) const
 	}
 }
 
+/*insert element in List by index*/
 template<class T>
 List<T> List<T>::Insert(T _data, int index) const
 {
@@ -189,6 +200,7 @@ List<T> List<T>::Insert(T _data, int index) const
 	}
 }
 
+/*delete element in List by index*/
 template<class T>
 List<T> List<T>::Remove(int index) const
 {
@@ -214,6 +226,7 @@ List<T> List<T>::Remove(int index) const
 	}
 }
 
+/*print all List*/
 template<class T>
 void List<T>::PrintAll() const
 {

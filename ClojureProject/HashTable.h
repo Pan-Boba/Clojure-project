@@ -7,6 +7,7 @@
 
 namespace pdsLib
 {
+	/*persistent hash table*/
 	template <class T>
 	class HashTable
 	{
@@ -28,29 +29,29 @@ namespace pdsLib
 		/*vector of elements*/
 		std::vector<std::shared_ptr<Element>> vecElement;
 
+		/*vector of elements*/
+		int size;
+
+		/*vector allocated memory (used for hashing)*/
+		int bufferSize;
+
 	public:
 		/*double hash method:
 		two hash functions that return coprime natural numbers*/
 		struct HashFunction1;
 		struct HashFunction2;
 
-		/*constructor*/
+		/*default constructor*/
 		HashTable();
 
-		/*constructor used to add elements*/;
+		/*constructor used to add elements*/
 		HashTable(std::shared_ptr<Element>, HashTable const&);
 
 		/*constructor used to remove elements*/
-		HashTable(int, HashTable const&);
-
-		/*is empty flag*/
-		bool IsEmpty() const;
+		HashTable(const T&, HashTable const&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
 
 		/*get num of elements in HashTable*/
 		int Count() const;
-
-		/*change keys*/
-		void Hash(std::shared_ptr<Element> element, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
 
 		/*return new HashTable with added element*/
 		HashTable Add(const T&) const;
@@ -59,9 +60,12 @@ namespace pdsLib
 		HashTable Remove(const T&) const;
 
 		/*find element in HashTable*/
-		bool Find(const T&) const;
+		bool Find(const T&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2()) const;
 		
 		/*print all elements from HashTable*/
 		void PrintAll() const;
+	private:
+		/*Insert element at current vector hash table*/
+		void Insert(const T&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
 	};
 }
