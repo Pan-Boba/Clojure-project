@@ -8,7 +8,7 @@
 namespace pdsLib
 {
 	/*persistent hash table*/
-	template <class T>
+	template <class T, class TKey>
 	class HashTable
 	{
 	private:
@@ -16,12 +16,17 @@ namespace pdsLib
 		struct Element
 		{
 			T data;
-			int key;
-			Element(const T& _data, const int _key=0) : data(_data), key(_key) {}
+			TKey key;
+			int hashKey;
+			
+			Element(const T& _data, const TKey& _key, const int _hashKey=0) : data(_data), key(_key), hashKey(_hashKey) {}
 		};
 
 		/*return string from T*/
 		static std::string toString(const T&);
+
+		/*return string from TKey*/
+		static std::string toString(const TKey&);
 
 		/*return natural number for hash*/
 		static int HashFunctionHorner(const std::string&, const int, const int key);
@@ -48,24 +53,30 @@ namespace pdsLib
 		HashTable(std::shared_ptr<Element>, HashTable const&);
 
 		/*constructor used to remove elements*/
-		HashTable(const T&, HashTable const&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+		HashTable(const TKey&, HashTable const&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
 
 		/*get num of elements in HashTable*/
 		int Count() const;
 
+		/*get element data of HashTable by key*/
+		T Get(const TKey&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2()) const;
+
+		/*set element data of HashTable by key*/
+		HashTable Set(const T&, const TKey&) const;
+
 		/*return new HashTable with added element*/
-		HashTable Add(const T&) const;
+		HashTable Add(const T&, const TKey&) const;
 		
 		/*return new HashTable with removed element*/
-		HashTable Remove(const T&) const;
+		HashTable Remove(const TKey&) const;
 
 		/*find element in HashTable*/
-		bool Find(const T&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2()) const;
-		
+		bool Find(const TKey&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2()) const;
+
 		/*print all elements from HashTable*/
 		void PrintAll() const;
 	private:
 		/*Insert element at current vector hash table*/
-		void Insert(const T&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
+		void Insert(const T&, const TKey&, const HashFunction1& hash1 = HashFunction1(), const HashFunction2& hash2 = HashFunction2());
 	};
 }

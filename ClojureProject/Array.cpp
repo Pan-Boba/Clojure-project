@@ -31,6 +31,21 @@ Array<T>::Array(int index, Array const& caller)
 	vecElement.erase(vecElement.begin() + index);
 }
 
+/*constructor used to set elements*/
+template <class T>
+Array<T>::Array(const T& data, int index, Array const& caller)
+{
+	vecElement.resize(caller.Count());
+	
+	for (int i = 0; i < caller.Count(); ++i)
+	{
+		if (i == index)
+			vecElement.at(i) = std::make_shared<Element>(data);
+		else
+			vecElement.at(i) = std::move(caller.vecElement.at(i));
+	}
+}
+
 /*is empty flag*/
 template <class T>
 bool Array<T>::IsEmpty() const
@@ -42,6 +57,13 @@ bool Array<T>::IsEmpty() const
 		return false;
 }
 
+/*correct index flag*/
+template<class T>
+bool Array<T>::CorrectIndex(int index) const
+{
+	return (index >= 0) && (index < Count());
+}
+
 /*get num of elements in Array*/
 template <class T>
 int Array<T>::Count() const
@@ -49,36 +71,28 @@ int Array<T>::Count() const
 	return vecElement.size();
 }
 
-/*return new Array with added element*/
+/*return new Array with added element at the end*/
 template <class T>
 Array<T> Array<T>::Add(const T& data) const
 {
 	return Array(std::make_shared<Element>(data), *this);
-	
 }
 
-/*return new Array with removed element*/
+/*return new Array without element at given index*/
 template <class T>
-Array<T> Array<T>::Remove(const T& data) const
+Array<T> Array<T>::Remove(int index) const
 {
 	try
 	{
-		if (!IsEmpty() && !Find(data))
-			throw std::invalid_argument("This element is not present in the array"); 
+		if (!CorrectIndex(index))
+			throw std::out_of_range("\nIncorrect index: ");
 
-		std::shared_ptr<Element> element = std::make_shared<Element>(data);
+		return Array(index, *this);
 
-		for (int i = 0; i < Count(); ++i)
-		{
-			if (vecElement.at(i)->data == data)
-			{
-				return Array(i, *this);
-			}
-		}
 	}
-	catch (std::invalid_argument e)
+	catch (std::out_of_range e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << index << std::endl;
 		return *this;
 	}
 }
@@ -89,7 +103,7 @@ bool Array<T>::Find(const T& data) const
 	try
 	{
 		if (IsEmpty())
-			throw std::invalid_argument("Empty array");
+			throw std::invalid_argument("\nEmpty array");
 
 		for (const std::shared_ptr<Element>& element : vecElement)
 		{
@@ -108,16 +122,58 @@ bool Array<T>::Find(const T& data) const
 	}
 }
 
+/*get element data of Array by index*/
+template <class T>
+T Array<T>::Get(int index) const
+{
+	try
+	{
+		if (!CorrectIndex(index))
+			throw std::out_of_range("\nIncorrect index: ");
+
+		return vecElement.at(index)->data;
+	}
+	catch (std::out_of_range e)
+	{
+		std::cout << e.what() << index << std::endl;
+		return NULL;
+	}
+}
+
+/*set element data of Array by index*/
+template <class T>
+Array<T> Array<T>::Set(const T& data, int index) const
+{
+	try
+	{
+		if (!CorrectIndex(index))
+			throw std::out_of_range("\nIncorrect index: ");
+
+		return Array(data, index, *this);
+	}
+	catch (std::out_of_range e)
+	{
+		std::cout << e.what() << index << std::endl;
+		
+		return *this;
+	}
+}
+
 /*print all elements from Array*/
 template <class T>
 void Array<T>::PrintAll() const
 {
-	std::cout << "\nSize: " << Count() << std::endl;
-
-	for (const std::shared_ptr<Element>& element : vecElement)
+	try
 	{
-		if (element)
-			std::cout << toString(element->data) << " ";
+		for (const std::shared_ptr<Element>& element : vecElement)
+		{
+			if (element)
+				std::cout << toString(element->data) << " ";
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 }

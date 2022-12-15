@@ -138,7 +138,7 @@ T List<T>::Get(int index) const
 	try
 	{
 		if (!CorrectIndex(index))
-			throw std::out_of_range("Incorrect index");
+			throw std::out_of_range("\nIncorrect index: ");
 
 		std::shared_ptr<Element> temp = head;
 		for (int i = 0; i < index; i++)
@@ -148,7 +148,8 @@ T List<T>::Get(int index) const
 	}
 	catch (std::out_of_range e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << index << std::endl;
+		return NULL;
 	}
 }
 
@@ -161,7 +162,7 @@ List<T> List<T>::Set(int index, T _data) const
 	try
 	{
 		if (!CorrectIndex(index))
-			throw std::out_of_range("Incorrect index");
+			throw std::out_of_range("\nIncorrect index: ");
 
 		if (index == 0)	
 			return Remove(index).AddHead(_data);
@@ -170,7 +171,7 @@ List<T> List<T>::Set(int index, T _data) const
 	}
 	catch (std::out_of_range e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << index << std::endl;
 
 		return *this;
 	}
@@ -182,8 +183,10 @@ List<T> List<T>::Insert(T _data, int index) const
 {
 	if (index == 0)
 		return AddHead(_data);
+
 	else if (index == count)
 		return AddTail(_data);
+
 	else
 	{
 		assert(!IsEmpty());
@@ -198,7 +201,7 @@ List<T> List<T>::Remove(int index) const
 	try
 	{
 		if (!CorrectIndex(index))
-			throw std::out_of_range("Incorrect index");
+			throw std::out_of_range("\nIncorrect index: ");
 
 		if (IsEmpty())
 			return List();
@@ -213,7 +216,7 @@ List<T> List<T>::Remove(int index) const
 	}
 	catch (std::out_of_range e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << index << std::endl;
 	}
 }
 
