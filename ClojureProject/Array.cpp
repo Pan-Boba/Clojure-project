@@ -67,17 +67,14 @@ Array<T> Array<T>::Remove(const T& data) const
 			throw std::invalid_argument("This element is not present in the array"); 
 
 		std::shared_ptr<Element> element = std::make_shared<Element>(data);
-		int index = 0;
 
 		for (int i = 0; i < Count(); ++i)
 		{
 			if (vecElement.at(i)->data == data)
 			{
-				index = i;
+				return Array(i, *this);
 			}
 		}
-
-		return Array(index, *this);
 	}
 	catch (std::invalid_argument e)
 	{

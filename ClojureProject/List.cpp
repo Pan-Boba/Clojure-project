@@ -5,7 +5,7 @@ using namespace pdsLib;
 
 /*element of List*/
 template<class T>
-Element<T>::Element(T _data, std::shared_ptr<Element<T>> _prev, std::shared_ptr<Element<T>> _next)
+List<T>::Element::Element(T _data, std::shared_ptr<Element> _prev, std::shared_ptr<Element> _next)
 {
 	data = _data;
 	prev = _prev;
@@ -21,7 +21,7 @@ List<T>::List()
 
 /*list-constructor used to pop front*/
 template<class T>
-List<T>::List(std::shared_ptr<Element<T>> element, List const& rest)
+List<T>::List(std::shared_ptr<Element> element, List const& rest)
 {
 	head = element;
 	tail = rest.tail;
@@ -34,14 +34,13 @@ List<T>::List(T element, List const& rest)
 {
 	if (rest.count > 0)
 	{
-		head = std::make_shared<Element<T>>(element, nullptr, rest.head);
-		//head = new Element<T>(element, nullptr, rest.head);
+		head = std::make_shared<Element>(element, nullptr, rest.head);
 		head->next->prev = head;
 		tail = rest.tail;
 	}
 	else
 	{
-		head = tail = std::make_shared<Element<T>>(element, nullptr, rest.head);
+		head = tail = std::make_shared<Element>(element, nullptr, rest.head);
 	}
 
 	count = rest.count + 1;
@@ -54,12 +53,12 @@ List<T>::List(List const& initial, T element)
 	if (initial.count > 0)
 	{
 		head = initial.head;
-		tail = std::make_shared<Element<T>>(element, initial.tail, nullptr);
+		tail = std::make_shared<Element>(element, initial.tail, nullptr);
 		tail->prev->next = tail;
 	}
 	else
 	{
-		head = tail = std::make_shared<Element<T>>(element, initial.tail, nullptr);
+		head = tail = std::make_shared<Element>(element, initial.tail, nullptr);
 	}
 
 	count = initial.count + 1;
@@ -130,14 +129,6 @@ List<T> List<T>::AddTail(T element) const
 	}
 }
 
-/*take and return new List from 0 to int elements*/
-template<class T>
-List<T> List<T>::Take(int n) const
-{
-	if (n <= 0 || IsEmpty()) return List();
-	return PoppedFront().Take(n - 1).AddHead(Front());
-}
-
 /*get element of List by index*/
 template<class T>
 T List<T>::Get(int index) const
@@ -149,7 +140,7 @@ T List<T>::Get(int index) const
 		if (!CorrectIndex(index))
 			throw std::out_of_range("Incorrect index");
 
-		std::shared_ptr<Element<T>> temp = head;
+		std::shared_ptr<Element> temp = head;
 		for (int i = 0; i < index; i++)
 			temp = temp->next;
 
@@ -232,7 +223,7 @@ void List<T>::PrintAll() const
 {
 	try
 	{
-		std::shared_ptr<Element<T>> temp = head;
+		std::shared_ptr<Element> temp = head;
 		for (int i = 0; i < count; i++)
 		{
 			std::cout << temp->data << " ";

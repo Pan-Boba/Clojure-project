@@ -98,7 +98,7 @@ HashTable<T>::HashTable(const T& data, HashTable const& caller, const HashFuncti
 	}
 }
 
-/*Insert element at current vector hash table*/
+/*Insert element at current vector hash table (used in add constr)*/
 template <class T>
 void HashTable<T>::Insert(const T& data, const HashFunction1& hash1, const HashFunction2& hash2)
 {

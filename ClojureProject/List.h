@@ -2,28 +2,27 @@
 
 #include <iostream>
 
-// TO DO: Concat, change to shared_ptr, pds
 namespace pdsLib
 {
-	/*element of List*/
-	template<class T>
-	struct Element
-	{
-		Element() {};
-		Element(T, std::shared_ptr<Element<T>>, std::shared_ptr<Element<T>>);
-		T data;
-		std::shared_ptr<Element<T>> prev;
-		std::shared_ptr<Element<T>> next;
-	};
-
 	/*doubly persistent linked list*/
 	template<class T>
 	class List
 	{
 	private:
-		std::shared_ptr<Element<T>> head;
-		std::shared_ptr<Element<T>> tail;
+		/*element of List*/
+		struct Element
+		{
+			Element(T, std::shared_ptr<Element>, std::shared_ptr<Element>);
+			T data;
+			std::shared_ptr<Element> prev;
+			std::shared_ptr<Element> next;
+		};
+
 		int count;
+
+		std::shared_ptr<Element> head;
+
+		std::shared_ptr<Element> tail;
 
 		/*correct index flag*/
 		bool CorrectIndex(int) const;
@@ -39,7 +38,7 @@ namespace pdsLib
 		List();
 
 		/*list-constructor used to pop front*/
-		List(std::shared_ptr<Element<T>>, List const&);
+		List(std::shared_ptr<Element>, List const&);
 
 		/*list-constructor used to Insert head element*/
 		List(T, List const&);
@@ -58,9 +57,6 @@ namespace pdsLib
 
 		/*return new List with added tail element*/
 		List<T> AddTail(T) const;
-
-		/*take and return new List from 0 to int elements*/
-		List<T> Take(int) const;
 
 		/*get element of List by index*/
 		T Get(int) const;
